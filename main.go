@@ -56,8 +56,10 @@ func toggleCheckbox(g *gocui.Gui, v *gocui.View) {
 	}
 }
 
-func nextCheckbox(g *gocui.Gui, v *gocui.View) error {
-	activeCheckboxIndex = (activeCheckboxIndex + 1) % len(checkboxes)
+func next_checkbox(g *gocui.Gui, v *gocui.View) error {
+	nextIndex := (activeCheckboxIndex + 1) % len(checkboxes);
+	fmt.Println("Going from view " + checkboxes[activeCheckboxIndex].name + " to " + checkboxes[nextIndex].name)
+	activeCheckboxIndex = nextIndex;
 	return nil;
 }
 
@@ -74,18 +76,18 @@ func nextCheckbox(g *gocui.Gui, v *gocui.View) error {
 // 	return nil
 // }
 
-func handleMouse(g *gocui.Gui, v *gocui.View) {
-	ox, oy := v.Origin()
-	cx, cy := v.Cursor()
-	x, y := ox+cx, oy+cy
-	width, _ := v.Size()
+// func handleMouse(g *gocui.Gui, v *gocui.View) {
+// 	ox, oy := v.Origin()
+// 	cx, cy := v.Cursor()
+// 	x, y := ox+cx, oy+cy
+// 	width, _ := v.Size()
 
-	if y == 0 && x > 0 && x < width-2 {
-		// Clicked on the checkbox area
-		// toggleCheckbox(g, v)
-	}
+// 	if y == 0 && x > 0 && x < width-2 {
+// 		// Clicked on the checkbox area
+// 		// toggleCheckbox(g, v)
+// 	}
 
-}
+// }
 
 func layout(g *gocui.Gui) error {
 	max_x, max_y := g.Size();
@@ -163,7 +165,10 @@ func main() {
 	defer g.Close()
 
 	// g.Cursor = true;
-	g.Mouse = true
+	// g.Mouse = true
+	g.Highlight = true
+	// g.Cursor = true
+	g.SelFgColor = gocui.ColorGreen
 
 	g.SetManagerFunc(layout)
 
@@ -173,7 +178,7 @@ func main() {
 		log.Panicln(err);
 	}
 
-	err = g.SetKeybinding("", gocui.KeyTab, gocui.ModNone, nextCheckbox); 
+	err = g.SetKeybinding("", gocui.KeyTab, gocui.ModNone, next_checkbox); 
 	if err != nil {
 		log.Fatal(err);
 	}
