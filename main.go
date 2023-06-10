@@ -7,27 +7,6 @@ import (
 	"github.com/jroimartin/gocui"
 )
 
-// func copy_password_to_clipboard(password string) {
-// 	clipboard.WriteAll(password)
-// }
-
-// func main() {
-// 	pass, err := generate_password(24, true, true, true, true);
-// 	if err != nil {
-// 		return;
-// 	}
-
-// 	out := fmt.Sprintf("password is: %s", pass);
-// 	fmt.Println(out);
-// }
-
-// var (
-// 	length int = 10;
-// 	uppercase_letters_checkbox bool = true;
-// 	digits_checkbox bool = false;
-// 	special_characters_checkbox bool = false;
-// )
-
 var (
 	checkboxes = []Checkbox{
 		{name: "Uppercase Letters", checked: false, position: 0},
@@ -58,36 +37,10 @@ func toggleCheckbox(g *gocui.Gui, v *gocui.View) {
 
 func next_checkbox(g *gocui.Gui, v *gocui.View) error {
 	nextIndex := (activeCheckboxIndex + 1) % len(checkboxes);
-	fmt.Println("Going from view " + checkboxes[activeCheckboxIndex].name + " to " + checkboxes[nextIndex].name)
+	// fmt.Println("Going from view " + checkboxes[activeCheckboxIndex].name + " to " + checkboxes[nextIndex].name)
 	activeCheckboxIndex = nextIndex;
 	return nil;
 }
-
-// func toggleCheckbox(g *gocui.Gui, v *gocui.View) error {
-// 	isChecked = !isChecked
-// 	v.Clear()
-// 	if isChecked {
-// 		v.SetCursor(0, 0)
-// 		fmt.Fprint(v, "[x] Checkbox")
-// 	} else {
-// 		v.SetCursor(0, 0)
-// 		fmt.Fprint(v, "[ ] Checkbox")
-// 	}
-// 	return nil
-// }
-
-// func handleMouse(g *gocui.Gui, v *gocui.View) {
-// 	ox, oy := v.Origin()
-// 	cx, cy := v.Cursor()
-// 	x, y := ox+cx, oy+cy
-// 	width, _ := v.Size()
-
-// 	if y == 0 && x > 0 && x < width-2 {
-// 		// Clicked on the checkbox area
-// 		// toggleCheckbox(g, v)
-// 	}
-
-// }
 
 func layout(g *gocui.Gui) error {
 	max_x, max_y := g.Size();
@@ -116,11 +69,9 @@ func layout(g *gocui.Gui) error {
 		}
 	}
 
-	// if _, err := g.SetCurrentView(checkboxes[activeCheckboxIndex].name); err != nil {
-	// 	return err
-	// }
-
-	// fmt.Println("hello, sailor!");
+	if _, err := g.SetCurrentView(checkboxes[activeCheckboxIndex].name); err != nil {
+		return err
+	}
 
 	return nil;
 }
