@@ -3,105 +3,95 @@ package main
 import (
 	"fmt"
 	"log"
-	_"strconv"
 	"github.com/jroimartin/gocui"
+	"github.com/atotto/clipboard"
 )
 
 var (
-	checkboxes = []Checkbox{
-		{name: "Uppercase Letters", checked: false, position: 0},
-		{name: "Digits", checked: false, position: 1},
-		{name: "Special Characters", checked: false, position: 2},
-	}
+	// ui_widgets = []interface{} {
+	// 	Checkbox{name: "Uppercase Letters", checked: false, position: 0},
+	// 	Checkbox{name: "Digits", checked: false, position: 1},
+	// 	Checkbox{name: "Special Characters", checked: false, position: 2},
+	// 	Button{name: "Copy", onClick: copy_password_to_clipboard, position: 3},
+	// }
 
-	activeCheckboxIndex = 0
+	password_field string = "MY PASSWORD";
+	
+	myViews = []string { "v0", "v1" };
+	currentViewIndex = 0;
 )
 
-type Checkbox struct {
-	name     string
-	checked  bool
-	position int
+type CheckboxWidget struct {
+	name     string;
+	checked  bool;
+	x, y 	 int;
 }
 
-func toggleCheckbox(g *gocui.Gui, v *gocui.View) {
-	checkboxes[activeCheckboxIndex].checked = !checkboxes[activeCheckboxIndex].checked
-	v.Clear()
-	if checkboxes[activeCheckboxIndex].checked {
-		v.SetCursor(0, 0)
-		fmt.Fprint(v, "[x] "+checkboxes[activeCheckboxIndex].name)
-	} else {
-		v.SetCursor(0, 0)
-		fmt.Fprint(v, "[ ] "+checkboxes[activeCheckboxIndex].name)
+func NewCheckboxWidget(name string, x int, y int) *CheckboxWidget {
+	return &CheckboxWidget{name: name, checked: false, x: x, y: y};
+}
+
+func (w *CheckboxWidget) toggle_checkbox_widget() {
+	w.checked = !w.checked;
+}
+
+func (w *CheckboxWidget) Layout(g *gocui.Gui) error {
+	check := " "
+	if w.checked { check = "x"; }
+	
+	str := fmt.Sprintf("[%s] %s", check, w.name);
+	v, err := g.SetView(w.name, w.x, w.y, w.x + len(str) + 2, w.y + 3);
+	if err != nil && err != gocui.ErrUnknownView{
+		return err;
 	}
-}
+	v.Clear();
 
-func next_checkbox(g *gocui.Gui, v *gocui.View) error {
-	nextIndex := (activeCheckboxIndex + 1) % len(checkboxes);
-	// fmt.Println("Going from view " + checkboxes[activeCheckboxIndex].name + " to " + checkboxes[nextIndex].name)
-	activeCheckboxIndex = nextIndex;
+	fmt.Fprint(v, str);
 	return nil;
 }
 
-func layout(g *gocui.Gui) error {
-	max_x, max_y := g.Size();
-
-	// fmt.Println("Length of checkboxes: " + strconv.Itoa(len(checkboxes)));
-	for i, checkbox := range checkboxes {
-		x0 := 0;
-		y0 := max_y/len(checkboxes) * i;
-		x1 := max_x - 1;
-		y1 := (max_y/len(checkboxes) * (i+1)) - 1;
-
-		v, err := g.SetView(checkbox.name, x0, y0, x1, y1); 
-		if err != nil {
-			if err != gocui.ErrUnknownView {
-				return err
-			}
-
-			v.Highlight = true
-			v.Frame = true;
-			v.Highlight = true
-			if checkbox.checked {
-				fmt.Fprint(v, "[x] "+checkbox.name)
-			} else {
-				fmt.Fprint(v, "[ ] "+checkbox.name)
-			}
-		}
-	}
-
-	if _, err := g.SetCurrentView(checkboxes[activeCheckboxIndex].name); err != nil {
-		return err
-	}
-
-	return nil;
+type Button struct {
+	name string;
+	onClick func();
+	position int;
 }
+
+func copy_password_to_clipboard() {
+	clipboard.WriteAll(password_field);
+}
+
+func nextView(g *gocui.Gui, v *gocui.View) error {
+	fmt.Println("Hello")
+	nextViewIndex := (currentViewIndex + 1) % len(myViews);
+	nextViewName := myViews[nextViewIndex];
+
+	fmt.Println("Going from view " + v.Name() + " to " + nextViewName);
+
+	if _, err := g.SetCurrentView(nextViewName); err != nil {
+		return err;
+	}
+
+	currentViewIndex = nextViewIndex;
+	return nil
+}
+
 
 // func layout(g *gocui.Gui) error {
-// 	maxX, maxY := g.Size()
-// 	v, err := g.SetView("main", 0, 0, maxX-1, maxY-1)
+// 	max_x, max_y := g.Size();
+
+// 	// fmt.Println("Length of checkboxes: " + strconv.Itoa(len(checkboxes)));
+// 	v, err := g.SetView("main", 0, 0, max_x - 1, max_y - 1); 
 // 	if err != nil {
 // 		if err != gocui.ErrUnknownView {
-// 			return err
+// 			return err;
 // 		}
 
-// 		v.Title = "Keyed - A Simple Password Generator"
-// 		v.Highlight = true
-// 		v.Wrap = true
-// 		v.SetCursor(1, 1)
-// 		v.Frame = false
-
-// 		fmt.Fprintln(v, "Parameters:")
-// 		fmt.Fprintln(v, "\t[X] Length (← or → to increase/decrease)")
-// 		fmt.Fprintln(v, "\t[ ] Uppercase Letters")
-// 		fmt.Fprintln(v, "\t[ ] Digits")
-// 		fmt.Fprintln(v, "\t[ ] Special Characters ('#', '&', '*')")
-
-// 		fmt.Fprintln(v, "Password:")
-// 		fmt.Fprintln(v, "\t| ... |")
+// 		// Rendering
+// 		v.Frame = true;
 
 // 	}
 
-// 	return nil
+// 	return nil;
 // }
 
 func quit(g *gocui.Gui, v *gocui.View) error {
@@ -115,13 +105,13 @@ func main() {
 	}
 	defer g.Close()
 
-	// g.Cursor = true;
-	// g.Mouse = true
 	g.Highlight = true
-	// g.Cursor = true
 	g.SelFgColor = gocui.ColorGreen
 
-	g.SetManagerFunc(layout)
+	uppercaseLettersCheckbox := NewCheckboxWidget("v0", 1, 1);
+	digitsCheckbox := NewCheckboxWidget("v1", 1, 6);
+	// special_characters_checkbox := NewCheckboxWidget("Special Characters", 1, 
+	g.SetManager(uppercaseLettersCheckbox, digitsCheckbox);
 
 	// Keybinds
 	err = g.SetKeybinding("", gocui.KeyCtrlC, gocui.ModNone, quit); 
@@ -129,15 +119,10 @@ func main() {
 		log.Panicln(err);
 	}
 
-	err = g.SetKeybinding("", gocui.KeyTab, gocui.ModNone, next_checkbox); 
-	if err != nil {
-		log.Fatal(err);
+	if err := g.SetKeybinding("", gocui.KeyTab, gocui.ModNone, nextView); err != nil {
+		log.Panicln(err)
 	}
 
-	// if err := g.SetKeybinding("checkbox", gocui.MouseLeft, gocui.ModNone, handleMouse); err != nil {
-	// 	fmt.Println("Error setting keybinding:", err)
-	// 	return
-	// }
 
 	err = g.MainLoop()
 	if err != nil && err != gocui.ErrQuit {
