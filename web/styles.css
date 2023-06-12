@@ -1,9 +1,9 @@
 /* styles.css */
 
 body {
-  font-family: "Open Sans";
+  font-family: "Consolas";
   font-size: 18px;
-  width: 700px;
+  width: 750px;
   height: auto;
   /* width: auto; */
   margin: 50px auto;
@@ -12,11 +12,7 @@ body {
   left: 50%;
   transform: translate(-50%, -50%); */
   color: #333333;
-  background-color: rgb(196, 229, 230);
-}
-
-.title {
-  color: 333333;
+  background-color: lemonchiffon;
 }
 
 .container {
@@ -34,6 +30,46 @@ input[type="checkbox"] {
   border-radius: 4px;
 }
 
+input[type="text"] {
+  border-radius: 5px;
+  padding: 10px;
+  height: 40px;
+  width: 400px;
+  font-size: 20px;
+  font-weight: bold;
+  font-family: "Consolas";
+}
+
+input[type="number"] {
+  border-radius: 5px;
+  padding: 10px;
+  height: 30px;
+  width: 50px;
+  font-size: 20px;
+  font-weight: bold;
+  font-family: "Consolas";
+}
+
+input[type="range"] {
+  width: 200px;
+}
+
+.styled-button {
+  padding: 10px 20px;
+  margin: 5px;
+  font-size: 16px;
+  color: #333333;
+  /* border: none; */
+  border-radius: 5px;
+  background-color: white;
+  /* cursor: pointer; */
+  font-family: "Consolas";
+}
+
+.styled-button:hover {
+  background-color: rgb(160, 160, 160);
+}
+
 .checkbox-container {
   margin: 5px;
   display: flex;
@@ -41,13 +77,12 @@ input[type="checkbox"] {
 }
 
 .my-container {
-  background-color: lemonchiffon;
+  background-color: lightgray;
   border: 1px solid #000000;
   border-radius: 5px;
   padding: 20px;
 }
 
-#parent > * {
+#parent>* {
   margin: 10px 0;
 }
-

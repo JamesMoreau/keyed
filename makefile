@@ -8,5 +8,5 @@ run: clean build
 	./keyed
 
 clean:
-	rm web/app.wasm
-	rm keyed
+	rm -f web/app.wasm
+	rm -f fkeyed
