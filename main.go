@@ -59,7 +59,7 @@ func (k *keyed) Render() app.UI {
 		app.Div().Body(
 			app.Form().Body(
 				app.Label().Body(app.Text("Password: ")),
-				app.Input().Type("text").Style("margin-right", "5px").Value("blah!").ID(elementIds[5]),
+				app.Input().Type("text").Style("margin-right", "5px").Value("").ID(elementIds[5]),
 			),
 		),
 
@@ -82,12 +82,6 @@ func (k *keyed) generatePassword(ctx app.Context, e app.Event) {
 	includeSpeciaCharactersInput := app.Window().GetElementByID("CH2").Get("checked").Bool()
 	excludeAmbiguousCharactersInput := app.Window().GetElementByID("CH3").Get("checked").Bool()
 
-	// fmt.Println(length)
-	// fmt.Println(strconv.FormatBool(includeUppercaseLettersInput))
-	// fmt.Println(strconv.FormatBool(includeDigitsInput))
-	// fmt.Println(strconv.FormatBool(includeSpeciaCharactersInput))
-	// fmt.Println(strconv.FormatBool(excludeAmbiguousCharactersInput))
-
 	password, err := generate_password(length, includeUppercaseLettersInput, includeDigitsInput, includeSpeciaCharactersInput, excludeAmbiguousCharactersInput);
 	if err != nil {
 		app.Window().Call("alert", "Unable to generate a password. :(");
@@ -98,9 +92,7 @@ func (k *keyed) generatePassword(ctx app.Context, e app.Event) {
 
 func (k *keyed) copyPassword(ctx app.Context, e app.Event) {
 	password := app.Window().GetElementByID("PASS").Get("value").String();
-	// fmt.Println("Writing " + password + " to clipboard.")
 	app.Window().Call("copyToClipboard", password);
-	// app.Value.Call()
 }
 
 func main() {
