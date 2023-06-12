@@ -12,35 +12,37 @@ type keyed struct {
 
 func (k *keyed) Render() app.UI {
 	return app.Div().
-	Class("container").
 		Body(
-			app.H1().
-				Class("title").
-				Text("Keyed - A Simple Password Generator"),
-			app.Div().
-				Class("checkbox").
-				Body(
-					app.Input().
-						Type("checkbox"),
+			app.H1().Class("title").Text("Keyed - A Simple Password Generator"),
+
+			app.Div().Class("checkbox-container").Body(
+				app.Input().Class("checkbox").Type("checkbox").ID("CH0"),
+				app.Label().For("CH0").Body(
 					app.Text("Include Uppercase Letters"),
 				),
-			app.Div().
-				Class("checkbox").
-				Body(
-					app.Input().
-						Type("checkbox"),
+			),
+
+			app.Div().Class("checkbox-container").Body(
+				app.Input().Class("checkbox").Type("checkbox").ID("CH1"),
+				app.Label().For("CH1").Body(
 					app.Text("Include Digits"),
 				),
-			app.Div().Body(
-				app.Input().
-					Type("checkbox"),
-				app.Text("Include Special Characters ('&', '*', '+', '/') BLAH"),
 			),
-			app.Div().Body(
-				app.Input().
-					Type("checkbox"),
-				app.Text("Exclude Ambiguous Characters ('l', 'L', 'O', '1', ...)"),
+
+			app.Div().Class("checkbox-container").Body(
+				app.Input().Type("checkbox").Type("checkbox").ID("CH2"),
+				app.Label().For("CH2").Body(
+					app.Text("Include Special Characters ('&', '*', '+', '/')"),
+				),
 			),
+
+			app.Div().Class("checkbox-container").Body(
+				app.Input().Type("checkbox").Type("checkbox").ID("CH3"),
+				app.Label().For("CH3").Body(
+					app.Text("Exclude Ambiguous Characters ('l', 'L', 'O', '1')"),
+				),
+			),
+
 			app.Div().Body(
 				app.Form().Body(
 					app.Label().Body(app.Text("Password")),
