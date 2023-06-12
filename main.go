@@ -12,21 +12,20 @@ type keyed struct {
 
 func (k *keyed) Render() app.UI {
 	return app.Div().
-		Style("width", "400px").
-		Style("height", "200px").
-		Style("background-color", "deepskyblue").
+	Class("container").
 		Body(
 			app.H1().
 				Class("title").
 				Text("Keyed - A Simple Password Generator"),
-			app.Div().Body(
-				app.Input().
-					Type("checkbox"),
-				app.Text("Include Uppercase Letters"),
-			),
 			app.Div().
 				Class("checkbox").
-				Style("background-color", "brown").
+				Body(
+					app.Input().
+						Type("checkbox"),
+					app.Text("Include Uppercase Letters"),
+				),
+			app.Div().
+				Class("checkbox").
 				Body(
 					app.Input().
 						Type("checkbox"),
@@ -35,7 +34,7 @@ func (k *keyed) Render() app.UI {
 			app.Div().Body(
 				app.Input().
 					Type("checkbox"),
-				app.Text("Include Special Characters ('&', '*', '+', '/')"),
+				app.Text("Include Special Characters ('&', '*', '+', '/') BLAH"),
 			),
 			app.Div().Body(
 				app.Input().
@@ -67,6 +66,7 @@ func main() {
 		Name:        "Keyed",
 		Description: "A Simple Password Generator",
 		Styles: []string{
+			// "https://unpkg.com/spectre.css",
 			"/web/styles.css",
 		},
 	})
