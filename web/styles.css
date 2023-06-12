@@ -1,0 +1,47 @@
+/* styles.css */
+body {
+  background-color: #0035c7;
+}
+
+.body {
+  background-color: brown;
+}
+
+body {
+  overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  font-size: 14px;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  border: none;
+  color: silver;
+  background-color: black;
+  scrollbar-color: rgba(255, 255, 255, 0.2) rgba(255, 255, 255, 0.08);
+  scrollbar-width: none;
+  -webkit-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+h1 {
+  color: blue;
+}
+
+.my-class {
+  font-size: 16px;
+}
+
+#my-element {
+  border: 1px solid black;
+}
+
+.title {
+  font-weight: lighter;
+  color: aquamarine;
+}
