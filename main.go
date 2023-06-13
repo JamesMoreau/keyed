@@ -23,7 +23,7 @@ func (k *keyed) Render() app.UI {
 
 			app.Div().Body(
 				app.Text("Length: "),
-				app.Input().Type("number").Min(1).Max(30).Value(16).ID(elementIds[0]).Style("margin-right", "10px"),
+				app.Input().Type("number").Min(1).Max(32).Value(16).ID(elementIds[0]).Style("margin-right", "10px"),
 				// app.Input().Type("range").Min(1).Max(30).Value(16).ID("LENGTH_SLIDER"),
 			),
 		),
