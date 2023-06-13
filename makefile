@@ -1,9 +1,6 @@
 build_wasm:
 	GOARCH=wasm GOOS=js go build -o main.wasm password.go
 
-run: clean build 
-	./keyed
-
 server:
 	python3 -m http.server
 

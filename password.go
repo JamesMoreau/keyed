@@ -75,29 +75,31 @@ func generate_password(length int, include_uppercase_letters bool, include_digit
 }
 
 func report_error(error_message string) {
-	color_red := "\033[31m";
-	color_reset := "\033[0m";
-	fmt.Println(string(color_red) + "Keyed Error: " + error_message + "." + string(color_reset));
+	fmt.Println("Keyed Error: " + error_message + ".");
 }
 
-func increment(this js.Value, args []js.Value) any {
-	counter := js.Global().Get("document").Call("getElementById", "counter")
-	counterValue, err := strconv.ParseInt(counter.Get("textContent").String(), 10, 64)
+func js_wrapper_generate_password(this js.Value, inputs []js.Value) interface{} {
+	length_str := inputs[0].String();
+	length, err := strconv.Atoi(length_str)
 	if err != nil {
-		return map[string]any{"error": err.Error()}
+		report_error("Unable to convert length string to integer.");
 	}
-	counterValue += int64(args[0].Int())
-	counter.Set("textContent", counterValue)
-	return map[string]any{"message": counterValue}
-}
 
-func add(this js.Value, inputs []js.Value) interface{} {
-	return inputs[0].Float() + inputs[1].Float();
+	include_uppercase_letters := inputs[1].Bool();
+	include_digits := inputs[2].Bool();
+	include_special_characters := inputs[3].Bool();
+	exclude_ambiguous_characters := inputs[4].Bool();
+
+	password, err := generate_password(length, include_uppercase_letters, include_digits, include_special_characters, exclude_ambiguous_characters);
+	if err != nil {
+		return "";
+	}
+
+	return password;
 }
 
 func main() {
-	// js.Global().Set("add", js.FuncOf(add))
-	// js.Global().Set("goIncrement", js.FuncOf(increment))
-	// select {}
 	fmt.Println("Hello web assembly from go!");
+	js.Global().Set("generatePassword", js.FuncOf(js_wrapper_generate_password));
+	select {} // runs forever
 }
