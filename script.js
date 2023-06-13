@@ -1,2 +1,6 @@
-// Add your JavaScript code here
-console.log("Hello, world!");
+const goWasm = new Go()
+
+WebAssembly.instantiateStreaming(fetch("main.wasm"), goWasm.importObject)
+	.then((result) => {
+		goWasm.run(result.instance)
+	})

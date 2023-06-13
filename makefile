@@ -1,6 +1,5 @@
-build:
-	GOARCH=wasm GOOS=js go build -o githubpages/web/app.wasm
-	go build
+build_wasm:
+	GOARCH=wasm GOOS=js go build -o main.wasm password.go
 
 run: clean build 
 	./keyed

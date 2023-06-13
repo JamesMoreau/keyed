@@ -5,7 +5,9 @@ import (
 	"errors"
 	"fmt"
 	"math/big"
+	"strconv"
 	"strings"
+	"syscall/js"
 )
 
 var (
@@ -76,4 +78,26 @@ func report_error(error_message string) {
 	color_red := "\033[31m";
 	color_reset := "\033[0m";
 	fmt.Println(string(color_red) + "Keyed Error: " + error_message + "." + string(color_reset));
+}
+
+func increment(this js.Value, args []js.Value) any {
+	counter := js.Global().Get("document").Call("getElementById", "counter")
+	counterValue, err := strconv.ParseInt(counter.Get("textContent").String(), 10, 64)
+	if err != nil {
+		return map[string]any{"error": err.Error()}
+	}
+	counterValue += int64(args[0].Int())
+	counter.Set("textContent", counterValue)
+	return map[string]any{"message": counterValue}
+}
+
+func add(this js.Value, inputs []js.Value) interface{} {
+	return inputs[0].Float() + inputs[1].Float();
+}
+
+func main() {
+	// js.Global().Set("add", js.FuncOf(add))
+	// js.Global().Set("goIncrement", js.FuncOf(increment))
+	// select {}
+	fmt.Println("Hello web assembly from go!");
 }

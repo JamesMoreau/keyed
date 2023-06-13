@@ -1,12 +1,57 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>My Website</title>
-  <link rel="stylesheet" type="text/css" href="style.css">
-</head>
-<body>
-  <h1>Welcome to My Website</h1>
 
-  <script src="script.js"></script>
+<head>
+	<title>My Website</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body>
+	<h1>HELLO WEB ASSEMBLY</h1>
+	<script src="wasm_exec.js"></script>
+	<script src="script.js"></script>
+
+	<div class="my-container" id="parent">
+		<h1 class="title">Keyed - A Simple Password Generator</h1>
+
+		<div>
+			Length
+			<input type="number" id="LENGTH_NUMBER" min="1" max="32" value="16" style="margin-right: 10px;">
+		</div>
+
+		<div class="checkbox-container">
+			<input type="checkbox" id="CB0" class="checkbox" checked>
+			<label for="CB0">Include Uppercase Letters</label>
+		</div>
+
+		<div class="checkbox-container">
+			<input type="checkbox" id="CB1" class="checkbox" checked>
+			<label for="CB1">Include Digits</label>
+		</div>
+
+		<div class="checkbox-container">
+			<input type="checkbox" id="CB2" class="checkbox">
+			<label for="CB2">Include Special Characters ('&', '*', '+', '/', ...)</label>
+		</div>
+
+		<div class="checkbox-container">
+			<input type="checkbox" id="CH3" class="checkbox">
+			<label for="CB3">Exclude Ambiguous Characters ('l', 'L', 'O', '1', ...)</label>
+		</div>
+
+		<div>
+			<form>
+				<label>Password: </label>
+				<input type="text" id="PASS" value="" style="margin-right: 5px;">
+			</form>
+		</div>
+
+		<div style="display: flex; justify-content: center">
+			<button class="styled-button" onclick="copyPassword()">Copy</button>
+			<button class="styled-button" onclick="generatePassword()">Generate</button>
+		</div>
+
+	</div>
 </body>
+
 </html>
