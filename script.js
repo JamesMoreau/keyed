@@ -12,8 +12,6 @@ function generatePasswordFromInput() {
 	includeSpecialCharactersInput = document.getElementById('CB2').checked
 	excludeAmbiguousCharactersInput = document.getElementById('CB3').checked
 
-	// console.log(length, includeUppercaseLettersInput, includeDigitsInput, includeSpecialCharactersInput, excludeAmbiguousCharactersInput)
-
 	passwordInput = document.getElementById('PASS')
 	password = generatePassword(length, includeUppercaseLettersInput, includeDigitsInput, includeSpecialCharactersInput, excludeAmbiguousCharactersInput)
 	passwordInput.value = password
@@ -22,9 +20,6 @@ function generatePasswordFromInput() {
 function copyPassword() {
 	passwordInput = document.getElementById('PASS')
 
-	passwordInput.focus();
-    passwordInput.select();
-	
 	password = passwordInput.value
 	navigator.clipboard.writeText(password)
 }
