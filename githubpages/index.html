@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="author" content>
+<meta name="description" content="An Hello World! example">
+<meta content name="keywords">
+<meta name="theme-color" content="#2d2c2c">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0, viewport-fit=cover">
+<meta property="og:url" content="http://127.0.0.1:63390/">
+<meta property="og:title" content>
+<meta property="og:description" content="An Hello World! example">
+<meta content="website" property="og:type">
+<meta property="og:image" content>
+<title>
+
+</title>
+<link rel="icon" href="https://storage.googleapis.com/murlok-github/icon-192.png">
+<link rel="apple-touch-icon" href="https://storage.googleapis.com/murlok-github/icon-192.png">
+<link rel="manifest" href="/manifest.webmanifest">
+<link type="text/css" rel="stylesheet" href="/app.css">
+<script defer="true" src="/wasm_exec.js"></script>
+<script defer="true" src="/app.js"></script>
+</head>
+<body>
+<div>
+<aside id="app-wasm-loader" class="goapp-app-info">
+<img id="app-wasm-loader-icon" class="goapp-logo goapp-spin" src="https://storage.googleapis.com/murlok-github/icon-192.png">
+<p id="app-wasm-loader-label" class="goapp-label">
+0%
+</p>
+</aside>
+<div id="app-pre-render">
+<div class="my-container" id="parent">
+<h1 class="title">
+Keyed - A Simple Password Generator
+</h1>
+<div style="padding-bottom:10px;">
+<div>
+Length: 
+<input type="number" min="1" max="32" value="16" id="LENGTH_NUMBER" style="margin-right:10px;">
+</div>
+</div>
+<div class="checkbox-container">
+<input class="checkbox" type="checkbox" id="CH0" checked="true">
+<label for="CH0">
+Include Uppercase Letters
+</label>
+</div>
+<div class="checkbox-container">
+<input class="checkbox" type="checkbox" id="CH1" checked="true">
+<label for="CH1">
+Include Digits
+</label>
+</div>
+<div class="checkbox-container">
+<input type="checkbox" id="CH2">
+<label for="CH2">
+Include Special Characters (&#39;&amp;&#39;, &#39;*&#39;, &#39;+&#39;, &#39;/&#39;, ...)
+</label>
+</div>
+<div class="checkbox-container">
+<input type="checkbox" id="CH3">
+<label for="CH3">
+Exclude Ambiguous Characters (&#39;l&#39;, &#39;L&#39;, &#39;O&#39;, &#39;1&#39;, ...)
+</label>
+</div>
+<div>
+<form>
+<label>
+Password: 
+</label>
+<input id="PASS" type="text" style="margin-right:5px;" value>
+</form>
+</div>
+<div style="display:flex;justify-content:center;">
+<button class="styled-button">
+Copy
+</button>
+<button class="styled-button">
+Generate
+</button>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>

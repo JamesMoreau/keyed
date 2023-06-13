@@ -119,7 +119,16 @@ func main() {
 		},
 	})
 
-	if err := http.ListenAndServe(":8000", nil); err != nil {
-		log.Fatal(err)
-	}
+	err := app.GenerateStaticWebsite("githubpages/", &app.Handler{
+		Name:        "Hello",
+		Description: "An Hello World! example",
+    })
+
+	if err != nil {
+        log.Fatal(err)
+    }
+
+	// if err := http.ListenAndServe(":8000", nil); err != nil {
+	// 	log.Fatal(err)
+	// }
 }
