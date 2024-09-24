@@ -1,62 +1,126 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <title>Keyed Website</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" type="text/css" href="style.css" />
+  </head>
 
-<head>
-	<title>Keyed Website</title>
-	<link rel="icon" href="favicon.ico" type="image/x-icon">
-	<link rel="stylesheet" type="text/css" href="style.css">
-</head>
+  <body>
+    <script src="wasm_exec.js"></script>
+    <script>
+      function updateNumberValue(value) {
+        document.getElementById("lengthNumberInput").value = value;
+      }
 
-<body>
-	<script src="wasm_exec.js"></script>
-	<script src="script.js"></script>
+      function updateRangeValue(value) {
+        document.getElementById("lengthRangeInput").value = value;
+      }
 
-	<div class="my-container" id="parent">
-		<h1 class="title">Keyed - A Simple Password Generator</h1>
+      function copyPassword() {
+        passwordInput = document.getElementById("PASS");
 
-		<div>
-			Length
-			<input type="number" id="lengthNumberInput" min="1" max="48" step="1" value="16" oninput="updateRangeValue(this.value)" style="margin-right: 10px;" >
-			<input type="range" id="lengthRangeInput" min="1" max="48" step="1" value="16" oninput="updateNumberValue(this.value)"> 
-		</div>
+        password = passwordInput.value;
+        navigator.clipboard.writeText(password);
+      }
 
-		<div class="checkbox-container">
-			<input type="checkbox" id="CB0" class="checkbox" checked>
-			<label for="CB0">Include Uppercase Letters</label>
-		</div>
+      // WASM stuff
+      const goWasm = new Go();
 
-		<div class="checkbox-container">
-			<input type="checkbox" id="CB1" class="checkbox" checked>
-			<label for="CB1">Include Digits</label>
-		</div>
+      WebAssembly.instantiateStreaming(
+        fetch("main.wasm"),
+        goWasm.importObject
+      ).then((result) => {
+        goWasm.run(result.instance);
+      });
 
-		<div class="checkbox-container">
-			<input type="checkbox" id="CB2" class="checkbox">
-			<label for="CB2">Include Special Characters ('&', '*', '+', '/', ...)</label>
-		</div>
+      function generatePasswordFromInput() {
+        length = document.getElementById("lengthNumberInput").value;
+        includeUppercaseLettersInput = document.getElementById("CB0").checked;
+        includeDigitsInput = document.getElementById("CB1").checked;
+        includeSpecialCharactersInput = document.getElementById("CB2").checked;
+        excludeAmbiguousCharactersInput =
+          document.getElementById("CB3").checked;
 
-		<div class="checkbox-container">
-			<input type="checkbox" id="CB3" class="checkbox">
-			<label for="CB3">Exclude Ambiguous Characters ('l', 'L', 'O', '1', ...)</label>
-		</div>
+        passwordInput = document.getElementById("PASS");
+        password = generatePassword(
+          length,
+          includeUppercaseLettersInput,
+          includeDigitsInput,
+          includeSpecialCharactersInput,
+          excludeAmbiguousCharactersInput
+        );
+        passwordInput.value = password;
+      }
+    </script>
 
-		<div>
-			<form>
-				<label>Password: </label>
-				<input type="text" id="PASS" value="" style="margin-right: 5px;">
-			</form>
-		</div>
+    <div class="my-container" id="parent">
+      <h1 class="title">Keyed - A Simple Password Generator</h1>
 
-		<div style="display: flex; justify-content: center">
-			<button class="styled-button" onclick="copyPassword()">Copy</button>
-			<button class="styled-button" onclick="generatePasswordFromInput()">Generate</button>
-		</div>
+      <div>
+        Length
+        <input
+          type="number"
+          id="lengthNumberInput"
+          min="1"
+          max="48"
+          step="1"
+          value="16"
+          oninput="updateRangeValue(this.value)"
+          style="margin-right: 10px"
+        />
+        <input
+          type="range"
+          id="lengthRangeInput"
+          min="1"
+          max="48"
+          step="1"
+          value="16"
+          oninput="updateNumberValue(this.value)"
+        />
+      </div>
 
-	</div>
-</body>
+      <div class="checkbox-container">
+        <input type="checkbox" id="CB0" class="checkbox" checked />
+        <label for="CB0">Include Uppercase Letters</label>
+      </div>
 
-<footer style="display: flex; justify-content: center">
-	<p><a href="https://www.github.com/JamesMoreau">Github</a></p>
-</footer>
+      <div class="checkbox-container">
+        <input type="checkbox" id="CB1" class="checkbox" checked />
+        <label for="CB1">Include Digits</label>
+      </div>
 
+      <div class="checkbox-container">
+        <input type="checkbox" id="CB2" class="checkbox" />
+        <label for="CB2"
+          >Include Special Characters ('&', '*', '+', '/', ...)</label
+        >
+      </div>
+
+      <div class="checkbox-container">
+        <input type="checkbox" id="CB3" class="checkbox" />
+        <label for="CB3"
+          >Exclude Ambiguous Characters ('l', 'L', 'O', '1', ...)</label
+        >
+      </div>
+
+      <div>
+        <form>
+          <label>Password </label>
+          <input type="text" id="PASS" value="" style="margin-right: 5px; width:536px" />
+        </form>
+      </div>
+
+      <div style="display: flex; justify-content: center">
+        <button class="styled-button" onclick="copyPassword()">Copy</button>
+        <button class="styled-button" onclick="generatePasswordFromInput()">
+          Generate
+        </button>
+      </div>
+    </div>
+  </body>
+
+  <footer style="display: flex; justify-content: center">
+    <p>WASM Required - <a href="https://www.github.com/JamesMoreau">Github</a></p>
+  </footer>
 </html>
