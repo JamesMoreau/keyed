@@ -3,7 +3,90 @@
   <head>
     <title>Keyed Website</title>
     <link rel="icon" href="favicon.ico" type="image/x-icon" />
-    <link rel="stylesheet" type="text/css" href="style.css" />
+    <!-- <link rel="stylesheet" type="text/css" href="style.css" /> -->
+    <style>
+      body {
+        font-family: "Consolas";
+        font-size: 18px;
+        width: 750px;
+        height: auto;
+        margin: 50px auto;
+        color: #333333;
+        background-color: lemonchiffon;
+      }
+
+      .container {
+        border: gold;
+        border-width: 5px;
+      }
+
+      input[type="checkbox"] {
+        width: 20px;
+        height: 20px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+
+      input[type="text"] {
+        border-radius: 5px;
+        padding: 10px;
+        height: 40px;
+        width: 400px;
+        font-size: 20px;
+        font-weight: bold;
+        font-family: "Consolas";
+      }
+
+      input[type="number"] {
+        border-radius: 5px;
+        padding: 10px;
+        height: 40px;
+        font-size: 20px;
+        font-weight: bold;
+        font-family: "Consolas";
+      }
+
+      input[type="number"]::-webkit-inner-spin-button,
+      input[type="number"]::-webkit-outer-spin-button {
+        height: 30px;
+        width: 40px;
+      }
+
+      input[type="range"] {
+        width: 200px;
+      }
+
+      .styled-button {
+        padding: 10px 20px;
+        margin: 5px;
+        font-size: 16px;
+        color: #333333;
+        border-radius: 5px;
+        background-color: white;
+        font-family: "Consolas";
+      }
+
+      .styled-button:hover {
+        background-color: rgb(160, 160, 160);
+      }
+
+      .checkbox-container {
+        margin: 5px;
+        display: flex;
+        align-items: center;
+      }
+
+      .my-container {
+        background-color: lightgray;
+        border: 1px solid #333333;
+        border-radius: 5px;
+        padding: 20px;
+      }
+
+      #parent > * {
+        margin: 10px 0;
+      }
+    </style>
   </head>
 
   <body>
@@ -107,7 +190,12 @@
       <div>
         <form>
           <label>Password </label>
-          <input type="text" id="PASS" value="" style="margin-right: 5px; width:536px" />
+          <input
+            type="text"
+            id="PASS"
+            value=""
+            style="margin-right: 5px; width: 536px"
+          />
         </form>
       </div>
 
@@ -121,6 +209,8 @@
   </body>
 
   <footer style="display: flex; justify-content: center">
-    <p>WASM Required - <a href="https://www.github.com/JamesMoreau">Github</a></p>
+    <p>
+      WASM Required - <a href="https://www.github.com/JamesMoreau">Github</a>
+    </p>
   </footer>
 </html>
